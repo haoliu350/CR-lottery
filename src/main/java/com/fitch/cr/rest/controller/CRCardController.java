@@ -17,7 +17,7 @@ public class CRCardController implements IndexController {
     CardsService cardsService;
 
     @RequestMapping(value = "/insertCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ApiResponse testException(@RequestParam(value = "name", required = false) String name,
+    public ApiResponse insertCard(@RequestParam(value = "name", required = false) String name,
                                      @RequestParam(value = "cost", required = false) int cost,
                                      @RequestParam(value = "rarity", required = false) String rarity,
                                      @RequestParam(value = "type", required = false) String type) {
@@ -26,10 +26,24 @@ public class CRCardController implements IndexController {
 
     }
 
-    @RequestMapping(value = "/getCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ApiResponse getAllCards() {
-        return cardsService.getAllCards();
+    @RequestMapping(value = "/updateCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ApiResponse updateCard( @RequestParam(value = "name", required = true) int id,
+                                    @RequestParam(value = "name", required = false) String name,
+                                    @RequestParam(value = "cost", required = false) int cost,
+                                    @RequestParam(value = "rarity", required = false) String rarity,
+                                    @RequestParam(value = "type", required = false) String type) {
 
+        return cardsService.updateCard(id, new CRCard(name, cost, rarity, type));
+
+    }
+
+    @RequestMapping(value = "/getCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ApiResponse getAllCards(@RequestParam(value = "sort", required = false) String sort) {
+        if(null == sort || sort.equals("") || sort == ""){
+            return cardsService.getAllCards();
+        } else {
+            return cardsService.getAllCards(sort);
+        }
     }
 
     @RequestMapping(value = "/getCard/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

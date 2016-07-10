@@ -9,6 +9,7 @@ import com.fitch.cr.rest.exception.InsertFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -24,7 +25,25 @@ public class CardsServiceImpl implements CardsService {
 
     @Override
     public ApiResponse getAllCards() {
-        return cardsOracleDao.getAllCards();
+        CRCards cardsList = (CRCards) cardsOracleDao.getAllCards();
+        //cardsList.getCrCardList().sort(CRCard.CardNameComparator);
+        cardsList.getCrCardList().sort(CRCard.CardCostComparator);
+        return cardsList;
+    }
+
+    @Override
+    public ApiResponse getAllCards(String sort) {
+        CRCards cardsList = (CRCards) cardsOracleDao.getAllCards();
+        if("name".equalsIgnoreCase(sort)){
+            cardsList.getCrCardList().sort(CRCard.CardNameComparator); //sort with name
+        } else if ("cost".equalsIgnoreCase(sort)){
+            cardsList.getCrCardList().sort(CRCard.CardCostComparator); //sort with cost
+        } else if ("rarity".equalsIgnoreCase(sort)){
+            cardsList.getCrCardList().sort(CRCard.CardRarityComparator); //sort with rarity, if same than sort with cost
+        } else {
+            Collections.sort(cardsList.getCrCardList()); //sort with id
+        }
+        return cardsList;
     }
 
     @Override
@@ -56,6 +75,11 @@ public class CardsServiceImpl implements CardsService {
         } else{
             throw new InsertFailedException("ServiceImpl: Insert failed.");
         }
+    }
+
+    @Override
+    public ApiResponse updateCard(int id, CRCard c) {
+        return null;
     }
 
     @Override

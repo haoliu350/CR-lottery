@@ -8,9 +8,11 @@ import com.fitch.cr.rest.dto.CRCard;
  */
 public interface CardsService {
     public ApiResponse getAllCards();
+    public ApiResponse getAllCards(String sort);
     public ApiResponse getCardById(int id);
     public ApiResponse getCardByName(String name);
     public boolean deleteCardById(String id);
     public ApiResponse insertCard(CRCard c);
+    public ApiResponse updateCard(int id, CRCard c);
     public ApiResponse generateOneRandomCard();
 }
