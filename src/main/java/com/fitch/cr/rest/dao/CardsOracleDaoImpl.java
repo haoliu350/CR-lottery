@@ -41,7 +41,7 @@ public class CardsOracleDaoImpl implements CardsOracleDao {
                 card.setRarity(resultSet.getString("CARD_RARITY"));
                 card.setType(resultSet.getString("CARD_TYPE"));
                 crCardList.add(card);
-                System.out.println(card);
+                //System.out.println(card);
             }
             stm.close();
             conn.close();
