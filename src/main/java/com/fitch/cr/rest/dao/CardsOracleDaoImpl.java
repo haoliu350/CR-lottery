@@ -19,6 +19,7 @@ public class CardsOracleDaoImpl implements CardsOracleDao {
 
     private final String INSERT_CARD = "{call insert_one_cr_card(?,?,?,?)}";
     private final String DELETE_CARD = "{call delete_card_by_id(?)}";
+    private final String UPDATE_CARD = "{call update_card_by_id(?,?,?,?,?)}";
 
     @Autowired
     OracleConfiguration oracleConfiguration;
@@ -240,6 +241,43 @@ public class CardsOracleDaoImpl implements CardsOracleDao {
             }
         }
         return idList;
+    }
+
+    @Override
+    public boolean updateCard(CRCard c) {
+        Connection conn = null;
+        CallableStatement callableStatement = null;
+
+        try {
+            conn = oracleConfiguration.dataSource().getConnection();
+            callableStatement = conn.prepareCall(UPDATE_CARD);
+            callableStatement.setInt(1, c.getId());
+            callableStatement.setString(2, c.getName());
+            callableStatement.setInt(3, c.getCost());
+            callableStatement.setString(4, c.getRarity());
+            callableStatement.setString(5, c.getType());
+
+            callableStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if(callableStatement != null){
+                try {
+                    callableStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

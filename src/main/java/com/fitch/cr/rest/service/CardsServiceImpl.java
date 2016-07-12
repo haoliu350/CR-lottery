@@ -78,8 +78,8 @@ public class CardsServiceImpl implements CardsService {
     }
 
     @Override
-    public ApiResponse updateCard(int id, CRCard c) {
-        return null;
+    public boolean updateCard(CRCard c) {
+        return cardsOracleDao.updateCard(c);
     }
 
     @Override

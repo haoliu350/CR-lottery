@@ -27,14 +27,19 @@ public class CRCardController implements IndexController {
     }
 
     @RequestMapping(value = "/updateCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ApiResponse updateCard( @RequestParam(value = "name", required = true) int id,
+    public String updateCard( @RequestParam(value = "id", required = true) int id,
                                     @RequestParam(value = "name", required = false) String name,
                                     @RequestParam(value = "cost", required = false) int cost,
                                     @RequestParam(value = "rarity", required = false) String rarity,
                                     @RequestParam(value = "type", required = false) String type) {
-
-        return cardsService.updateCard(id, new CRCard(name, cost, rarity, type));
-
+        CRCard c = new CRCard(name, cost, rarity, type);
+        c.setId(id);
+        boolean updateSuccess = cardsService.updateCard(c);
+        if(updateSuccess){
+            return "Update completed.";
+        }else {
+            return "Update could not be completed.";
+        }
     }
 
     @RequestMapping(value = "/getCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

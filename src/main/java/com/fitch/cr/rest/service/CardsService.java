@@ -13,6 +13,6 @@ public interface CardsService {
     public ApiResponse getCardByName(String name);
     public boolean deleteCardById(String id);
     public ApiResponse insertCard(CRCard c);
-    public ApiResponse updateCard(int id, CRCard c);
+    public boolean updateCard(CRCard c);
     public ApiResponse generateOneRandomCard();
 }
