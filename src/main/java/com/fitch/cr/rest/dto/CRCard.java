@@ -80,6 +80,9 @@ public class CRCard implements ApiResponse, Comparable<CRCard>{
 
     public static Comparator<CRCard> CardNameComparator = new Comparator<CRCard>() {
         public int compare(CRCard c1, CRCard c2) {
+
+            //TODO: if name is null will giving exception, not able to compare
+
             String c1Name = c1.getName().toUpperCase();
             String c2Name = c2.getName().toUpperCase();
             //ascending order
@@ -98,6 +101,9 @@ public class CRCard implements ApiResponse, Comparable<CRCard>{
 
     public static Comparator<CRCard> CardRarityComparator = new Comparator<CRCard>() {
         public int compare(CRCard c1, CRCard c2) {
+
+            //TODO: if name is null will giving exception, not able to compare
+
             String c1Rarity = c1.getRarity().toUpperCase();
             String c2Rarity = c2.getRarity().toUpperCase();
             int result = c1Rarity.compareTo(c2Rarity);
