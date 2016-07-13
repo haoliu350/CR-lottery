@@ -1,6 +1,7 @@
 package com.fitch.cr.rest.dao;
 
 import com.fitch.cr.rest.dto.ApiResponse;
+import com.fitch.cr.rest.dto.CRCard;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface CardsOracleDao {
     public boolean deleteCardById(int id);
     //public int[] getIds();
     public List<Integer> getIds();
+    public boolean updateCard(CRCard c);
 }

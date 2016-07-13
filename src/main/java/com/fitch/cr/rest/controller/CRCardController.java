@@ -17,24 +17,43 @@ public class CRCardController implements IndexController {
     CardsService cardsService;
 
     @RequestMapping(value = "/insertCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ApiResponse testException(@RequestParam(value = "name", required = false) String name,
-                                     @RequestParam(value = "cost", required = false) int cost,
+    public ApiResponse insertCard(@RequestParam(value = "name", required = false) String name,
+                                     @RequestParam(value = "cost", required = false) String cost,
                                      @RequestParam(value = "rarity", required = false) String rarity,
                                      @RequestParam(value = "type", required = false) String type) {
 
-        return cardsService.insertCard(new CRCard(name, cost, rarity, type));
+        return cardsService.insertCard(new CRCard(name, Integer.valueOf(cost), rarity, type));
 
+    }
+
+    @RequestMapping(value = "/updateCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public String updateCard( @RequestParam(value = "id", required = true) String id,
+                                    @RequestParam(value = "name", required = false) String name,
+                                    @RequestParam(value = "cost", required = false) String cost,
+                                    @RequestParam(value = "rarity", required = false) String rarity,
+                                    @RequestParam(value = "type", required = false) String type) {
+        CRCard c = new CRCard(name, Integer.valueOf(cost), rarity, type);
+        c.setId(Integer.valueOf(id));
+        boolean updateSuccess = cardsService.updateCard(c);
+        if(updateSuccess){
+            return "Update completed.";
+        }else {
+            return "Update could not be completed.";
+        }
     }
 
     @RequestMapping(value = "/getCard", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ApiResponse getAllCards() {
-        return cardsService.getAllCards();
-
+    public ApiResponse getAllCards(@RequestParam(value = "sort", required = false) String sort) {
+        if(null == sort || sort.equals("") || sort == ""){
+            return cardsService.getAllCards();
+        } else {
+            return cardsService.getAllCards(sort);
+        }
     }
 
     @RequestMapping(value = "/getCard/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ApiResponse getAllCardById(@PathVariable int id) {
-        return cardsService.getCardById(id);
+    public ApiResponse getAllCardById(@PathVariable String id) {
+        return cardsService.getCardById(Integer.valueOf(id));
 
     }
 
@@ -52,4 +71,10 @@ public class CRCardController implements IndexController {
     public ApiResponse getOneRandomCard() {
         return cardsService.generateOneRandomCard();
     }
+
+    @RequestMapping(value = "/random/{number}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ApiResponse getRandomCards(@PathVariable String number) {
+        return cardsService.generateRandomCards(Integer.valueOf(number));
+    }
+
 }

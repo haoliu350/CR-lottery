@@ -1,9 +1,11 @@
 package com.fitch.cr.rest.dto;
 
+import java.util.Comparator;
+
 /**
  * Created by hliu on 2016/7/5.
  */
-public class CRCard implements ApiResponse{
+public class CRCard implements ApiResponse, Comparable<CRCard>{
 
     private int Id;
     private String name;
@@ -70,4 +72,42 @@ public class CRCard implements ApiResponse{
                 ", type='" + type + '\'' +
                 '}';
     }
+
+    @Override
+    public int compareTo(CRCard o) {
+        return this.Id - o.getId();
+    }
+
+    public static Comparator<CRCard> CardNameComparator = new Comparator<CRCard>() {
+        public int compare(CRCard c1, CRCard c2) {
+
+            //TODO: if name is null will giving exception, not able to compare
+
+            String c1Name = c1.getName().toUpperCase();
+            String c2Name = c2.getName().toUpperCase();
+            //ascending order
+            return c1Name.compareTo(c2Name);
+
+            //descending order
+            //return c2Name.compareTo(c1Name);
+        }
+    };
+
+    public static Comparator<CRCard> CardCostComparator = new Comparator<CRCard>() {
+        public int compare(CRCard c1, CRCard c2) {
+            return c1.getCost() - c2.getCost();
+        }
+    };
+
+    public static Comparator<CRCard> CardRarityComparator = new Comparator<CRCard>() {
+        public int compare(CRCard c1, CRCard c2) {
+
+            //TODO: if name is null will giving exception, not able to compare
+
+            String c1Rarity = c1.getRarity().toUpperCase();
+            String c2Rarity = c2.getRarity().toUpperCase();
+            int result = c1Rarity.compareTo(c2Rarity);
+            return result == 0 ? (c1.getCost() - c2.getCost()) : -1;
+        }
+    };
 }
