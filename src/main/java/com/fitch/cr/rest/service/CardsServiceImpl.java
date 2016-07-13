@@ -9,6 +9,7 @@ import com.fitch.cr.rest.exception.InsertFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -88,5 +89,22 @@ public class CardsServiceImpl implements CardsService {
         int index =  new Random().nextInt(cardIds.size());
         CRCards cardsList = (CRCards) cardsOracleDao.getCardById(cardIds.get(index));
         return cardsList.getCrCardList().get(0);
+    }
+
+    @Override
+    public ApiResponse generateRandomCards(int number) {
+        CRCards allCards = (CRCards) cardsOracleDao.getAllCards();
+        List<CRCard> cardList = allCards.getCrCardList();
+        List<CRCard> result = new ArrayList<CRCard>();
+        int renderingNumber = cardList.size() < number ? cardList.size() : number;
+        for(int i = 0 ; i < renderingNumber ; i++ ){
+            int index =  new Random().nextInt(cardList.size());
+            result.add(cardList.get(index));
+            cardList.remove(index);
+        }
+        Collections.sort(result, CRCard.CardCostComparator);
+        CRCards object = new CRCards();
+        object.setCrCardList(result);
+        return object;
     }
 }

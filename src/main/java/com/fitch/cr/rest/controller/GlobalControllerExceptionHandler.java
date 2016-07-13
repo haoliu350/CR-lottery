@@ -39,4 +39,10 @@ public class GlobalControllerExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<ErrorResponse> handleNumberFormatException(Exception exception) {
+        LOGGER.error("[NumberFormatException]: " + exception.getMessage());
+        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
 }

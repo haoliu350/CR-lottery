@@ -15,4 +15,5 @@ public interface CardsService {
     public ApiResponse insertCard(CRCard c);
     public boolean updateCard(CRCard c);
     public ApiResponse generateOneRandomCard();
+    public ApiResponse generateRandomCards(int number);
 }
