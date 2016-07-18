@@ -38,7 +38,7 @@ public class CRCardController implements IndexController {
         if(updateSuccess){
             return "Update completed.";
         }else {
-            return "Update could not be completed.";
+            return "Update failed.";
         }
     }
 
@@ -63,7 +63,7 @@ public class CRCardController implements IndexController {
         if(deleteSuccess){
             return "Delete completed.";
         }else {
-            return "Deletion could not be completed.";
+            return "Deletion failed.";
         }
     }
 

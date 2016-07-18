@@ -9,10 +9,8 @@ import com.fitch.cr.rest.exception.InsertFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by hliu on 2016/7/6.
@@ -35,6 +33,8 @@ public class CardsServiceImpl implements CardsService {
     @Override
     public ApiResponse getAllCards(String sort) {
         CRCards cardsList = (CRCards) cardsOracleDao.getAllCards();
+        Set<CRCard> temp = cardsList.getCrCardList().stream().collect(Collectors.toSet());
+        cardsList.setCrCardList(temp.stream().collect(Collectors.toList()));
         if("name".equalsIgnoreCase(sort)){
             cardsList.getCrCardList().sort(CRCard.CardNameComparator); //sort with name
         } else if ("cost".equalsIgnoreCase(sort)){

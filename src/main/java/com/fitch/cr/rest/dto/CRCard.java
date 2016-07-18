@@ -75,6 +75,15 @@ public class CRCard implements ApiResponse, Comparable<CRCard>{
 
     @Override
     public int compareTo(CRCard o) {
+/*        if( this.name.equalsIgnoreCase(o.getName())
+                && this.cost == o.getCost()
+                && this.rarity.equalsIgnoreCase(o.getRarity())
+                && this.getType().equalsIgnoreCase(o.getType())
+                ){
+            return 0;
+        }else {
+            return this.Id - o.getId();
+        }*/
         return this.Id - o.getId();
     }
 
@@ -95,7 +104,8 @@ public class CRCard implements ApiResponse, Comparable<CRCard>{
 
     public static Comparator<CRCard> CardCostComparator = new Comparator<CRCard>() {
         public int compare(CRCard c1, CRCard c2) {
-            return c1.getCost() - c2.getCost();
+            int result = c1.getCost() - c2.getCost();
+            return result == 0 ? c1.getName().compareTo(c2.getName()) : result;
         }
     };
 
@@ -107,7 +117,47 @@ public class CRCard implements ApiResponse, Comparable<CRCard>{
             String c1Rarity = c1.getRarity().toUpperCase();
             String c2Rarity = c2.getRarity().toUpperCase();
             int result = c1Rarity.compareTo(c2Rarity);
-            return result == 0 ? (c1.getCost() - c2.getCost()) : -1;
+            return result == 0 ? (c1.getCost() - c2.getCost()) : result;
         }
     };
+
+    public static Comparator<CRCard> FullCardComparator = new Comparator<CRCard>() {
+        public int compare(CRCard c1, CRCard c2) {
+
+            //TODO: if name is null will giving exception, not able to compare
+
+            if( c1.getName().equalsIgnoreCase(c2.getName())
+                    && c1.getCost() == c2.getCost()
+                    && c1.getRarity().equalsIgnoreCase(c2.getRarity())
+                    && c1.getType().equalsIgnoreCase(c2.getType())
+                    ){
+                return 0;
+            }else {
+                return c1.getId() - c2.getId();
+            }
+        }
+    };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CRCard crCard = (CRCard) o;
+
+        if (cost != crCard.cost) return false;
+        if (name != null ? !name.equals(crCard.name) : crCard.name != null) return false;
+        if (rarity != null ? !rarity.equals(crCard.rarity) : crCard.rarity != null) return false;
+        return type != null ? type.equals(crCard.type) : crCard.type == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + cost;
+        result = 31 * result + (rarity != null ? rarity.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
 }
