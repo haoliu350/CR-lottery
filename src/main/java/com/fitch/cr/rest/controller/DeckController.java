@@ -24,6 +24,4 @@ public class DeckController implements IndexController{
     public Deck getRandomDeck(){
         return deckService.getRandomDeck();
     }
-
-
 }
