@@ -47,6 +47,12 @@
             <artifactId>ojdbc7</artifactId>
             <version>12.1.0.1</version>
         </dependency>
+        
+		<dependency>
+		  <groupId>com.itextpdf</groupId>
+		  <artifactId>itext7-core</artifactId>
+		  <version>7.0.2</version>
+		</dependency>
 
     </dependencies>
 
